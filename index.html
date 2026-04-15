@@ -392,11 +392,11 @@
 
         /* PLACEHOLDER IMAGES */
         .linkedin-post-bg {
-            background: linear-gradient(135deg, #7dbf41 0%, #5a9930 100%);
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
         }
 
         .hiring-bg {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
         }
 
         .quote-bg {
@@ -404,27 +404,117 @@
         }
 
         .instagram-bg {
-            background: linear-gradient(135deg, #e95950 0%, #d43f57 100%);
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
         }
 
         .email-bg {
-            background: linear-gradient(135deg, #f5a623 0%, #e09112 100%);
+            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
         }
 
         .presentation-bg {
-            background: linear-gradient(135deg, #8b63d9 0%, #7347c4 100%);
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
         }
 
         .internal-bg {
-            background: linear-gradient(135deg, #50c9ce 0%, #3aafb3 100%);
+            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
         }
 
         .event-bg {
-            background: linear-gradient(135deg, #ff6b9d 0%, #e85585 100%);
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
         }
 
         .case-study-bg {
-            background: linear-gradient(135deg, #7dbf41 0%, #5a9930 100%);
+            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+        }
+
+        /* POPUP STYLES */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+        }
+
+        .popup-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: popupSlide 0.3s ease-out;
+        }
+
+        @keyframes popupSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background-color: #e0ebe4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--green);
+        }
+
+        .popup-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-green);
+            margin-bottom: 12px;
+        }
+
+        .popup-message {
+            font-size: 16px;
+            color: var(--text-gray);
+            line-height: 24px;
+            margin-bottom: 32px;
+        }
+
+        .popup-button {
+            background-color: var(--green);
+            color: var(--dark-green);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 9999px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .popup-button:hover {
+            background-color: var(--hover-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(125, 191, 65, 0.3);
         }
     </style>
 </head>
@@ -577,7 +667,7 @@
                     </a>
 
                     <!-- LinkedIn Post -->
-                    <div class="template-card" data-category="linkedin social">
+                    <div class="template-card" data-category="linkedin social" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview linkedin-post-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -592,7 +682,7 @@
                     </div>
 
                     <!-- Hiring -->
-                    <div class="template-card" data-category="linkedin social">
+                    <div class="template-card" data-category="linkedin social" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview hiring-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -608,7 +698,7 @@
 
 
                     <!-- Instagram -->
-                    <div class="template-card" data-category="instagram social">
+                    <div class="template-card" data-category="instagram social" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview instagram-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -623,7 +713,7 @@
                     </div>
 
                     <!-- Email -->
-                    <div class="template-card" data-category="email">
+                    <div class="template-card" data-category="email" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview email-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -638,7 +728,7 @@
                     </div>
 
                     <!-- Presentation -->
-                    <div class="template-card" data-category="presentation">
+                    <div class="template-card" data-category="presentation" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview presentation-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -653,7 +743,7 @@
                     </div>
 
                     <!-- Internal -->
-                    <div class="template-card" data-category="internal">
+                    <div class="template-card" data-category="internal" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview internal-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -668,7 +758,7 @@
                     </div>
 
                     <!-- Event -->
-                    <div class="template-card" data-category="social">
+                    <div class="template-card" data-category="social" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview event-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -683,7 +773,7 @@
                     </div>
 
                     <!-- Case Study -->
-                    <div class="template-card" data-category="document">
+                    <div class="template-card" data-category="document" onclick="showPopup()" style="cursor: pointer;">
                         <div class="template-preview case-study-bg"></div>
                         <div class="template-info">
                             <div class="template-header">
@@ -701,7 +791,44 @@
         </main>
     </div>
 
+    <!-- POPUP -->
+    <div class="popup-overlay" id="comingSoonPopup">
+        <div class="popup-content">
+            <div class="popup-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </div>
+            <h2 class="popup-title">Coming Soon!</h2>
+            <p class="popup-message">This template will be available soon. We're working to bring you more amazing tools!</p>
+            <button class="popup-button" onclick="closePopup()">Got it</button>
+        </div>
+    </div>
+
     <script>
+        // Popup functions
+        function showPopup() {
+            document.getElementById('comingSoonPopup').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('comingSoonPopup').classList.remove('active');
+        }
+
+        // Fechar popup ao clicar fora
+        document.getElementById('comingSoonPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Fechar popup com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+
         // Filter functionality
         const filterButtons = document.querySelectorAll('.filter-btn');
         const templateCards = document.querySelectorAll('.template-card');

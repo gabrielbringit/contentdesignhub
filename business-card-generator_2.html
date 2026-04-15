@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card Generator - Content Design Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <style>
+        /* ===== GLOBALS ===== */
+        * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0px;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* ===== STYLEGUIDE VARIABLES ===== */
+        :root {
+            --bring-itgreen: rgba(125, 191, 65, 1);
+            --bring-itdark-green: rgba(14, 23, 19, 1);
+            --bring-itconcrete: rgba(107, 117, 110, 1);
+            --bring-itpure-white: rgba(255, 255, 255, 1);
+        }
+        
+        /* ===== EDITOR STYLES ===== */
+        .editor-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a231f 0%, #2d3a35 100%);
+        }
+        
+        .editor-panel {
+            width: 450px;
+            background: rgba(14, 23, 19, 0.95);
+            padding: 40px 30px;
+            border-right: 1px solid rgba(125, 191, 65, 0.2);
+            overflow-y: auto;
+        }
+        
+        .editor-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .editor-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .editor-panel::-webkit-scrollbar-thumb {
+            background: rgba(125, 191, 65, 0.3);
+            border-radius: 4px;
+        }
+        
+        .editor-panel::-webkit-scrollbar-thumb:hover {
+            background: rgba(125, 191, 65, 0.5);
+        }
+        
+        .editor-title {
+            color: var(--bring-itgreen);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .editor-subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .section-title {
+            color: var(--bring-itgreen);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            font-family: "Roboto", sans-serif;
+            padding-top: 20px;
+            border-top: 1px solid rgba(125, 191, 65, 0.2);
+        }
+        
+        .section-title:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            color: #e0e0e0;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(125, 191, 65, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            font-family: "Roboto", sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--bring-itgreen);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .upload-zone {
+            border: 3px dashed rgba(125, 191, 65, 0.4);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--bring-itgreen);
+            background: rgba(125, 191, 65, 0.08);
+        }
+        
+        .upload-zone.dragover {
+            border-color: var(--bring-itgreen);
+            background: rgba(125, 191, 65, 0.15);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            color: #999;
+            font-size: 14px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .upload-text strong {
+            color: var(--bring-itgreen);
+        }
+        
+        .photo-input {
+            display: none;
+        }
+        
+        .photo-preview-mini {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px auto 0;
+            overflow: hidden;
+            border: 3px solid var(--bring-itgreen);
+            display: none;
+        }
+        
+        .photo-preview-mini.active {
+            display: block;
+        }
+        
+        .photo-preview-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logo-preview-mini {
+            width: 120px;
+            height: 60px;
+            margin: 20px auto 0;
+            overflow: hidden;
+            border: 2px solid var(--bring-itgreen);
+            border-radius: 8px;
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo-preview-mini.active {
+            display: block;
+        }
+        
+        .logo-preview-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .btn-primary {
+            background: var(--bring-itgreen);
+            color: #0e1713;
+        }
+        
+        .btn-primary:hover {
+            background: #8fd44d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(125, 191, 65, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* ===== PREVIEW AREA ===== */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            gap: 30px;
+        }
+        
+        .card-toggle {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #999;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .toggle-btn.active {
+            background: var(--bring-itgreen);
+            color: #0e1713;
+            border-color: var(--bring-itgreen);
+        }
+        
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .cards-container {
+            position: relative;
+            width: 1050px;
+            height: 600px;
+            perspective: 2000px;
+        }
+        
+        .card-flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .card-flipper.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .business-card {
+            width: 1050px;
+            height: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* ===== FRONT CARD ===== */
+        .card-front {
+            background: linear-gradient(135deg, #0e1713 0%, #1a2922 100%);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-front-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .card-logo-container {
+            width: 180px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .card-logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .card-photo-front {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--bring-itgreen);
+            background: rgba(107, 117, 110, 0.3);
+        }
+        
+        .card-photo-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .card-front-bottom {
+            margin-top: auto;
+        }
+        
+        .card-name {
+            font-family: "Roboto", sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--bring-itpure-white);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        
+        .card-position {
+            font-family: "Roboto", sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--bring-itgreen);
+            margin-bottom: 5px;
+        }
+        
+        .card-department {
+            font-family: "Roboto", sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* ===== BACK CARD ===== */
+        .card-back {
+            background: var(--bring-itpure-white);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+        
+        .card-logo-back {
+            width: 180px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-logo-back img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .card-qr {
+            width: 120px;
+            height: 120px;
+            background: rgba(107, 117, 110, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #999;
+            font-family: "Roboto", sans-serif;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .card-qr img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .contact-info {
+            display: grid;
+            gap: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bring-itgreen);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .contact-text {
+            font-family: "Roboto", sans-serif;
+            font-size: 22px;
+            color: var(--bring-itdark-green);
+            font-weight: 400;
+        }
+        
+        .card-back-footer {
+            margin-top: auto;
+            padding-top: 30px;
+            border-top: 2px solid rgba(125, 191, 65, 0.3);
+        }
+        
+        .company-info {
+            font-family: "Roboto", sans-serif;
+            font-size: 18px;
+            color: var(--bring-itconcrete);
+            line-height: 1.6;
+        }
+        
+        /* ===== HELPER TEXT ===== */
+        .helper-text {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+            font-family: "Roboto", sans-serif;
+            font-style: italic;
+        }
+        
+        .dimension-label {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+            font-family: "Roboto", sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-wrapper">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+            <h1 class="editor-title">Gerador de Cartão de Visitas</h1>
+            <p class="editor-subtitle">Crie cartões profissionais com frente e verso personalizados</p>
+            
+            <!-- Informações Pessoais -->
+            <div class="section-title">👤 Informações Pessoais</div>
+            
+            <div class="form-group">
+                <label class="form-label">Nome Completo</label>
+                <input type="text" id="personName" class="form-input" value="John Smith" maxlength="50">
+                <div class="char-counter"><span id="nameCount">10</span>/50</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Cargo</label>
+                <input type="text" id="personPosition" class="form-input" value="Solutions Architect" maxlength="50">
+                <div class="char-counter"><span id="positionCount">19</span>/50</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Departamento</label>
+                <input type="text" id="personDepartment" class="form-input" value="Technology & Innovation" maxlength="50">
+                <div class="char-counter"><span id="departmentCount">23</span>/50</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Foto Profissional</label>
+                <div class="upload-zone" id="photoUploadZone">
+                    <div class="upload-icon">📸</div>
+                    <p class="upload-text">Arraste a foto ou <strong>clique para fazer upload</strong></p>
+                    <p class="helper-text">Formato: JPG, PNG • Recomendado: foto em fundo neutro</p>
+                </div>
+                <input type="file" id="photoInput" class="photo-input" accept="image/*">
+                <div class="photo-preview-mini" id="photoPreview">
+                    <img id="photoPreviewImg" src="" alt="Preview">
+                </div>
+            </div>
+            
+            <!-- Contato -->
+            <div class="section-title">📱 Informações de Contato</div>
+            
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="contactEmail" class="form-input" value="john.smith@company.com" maxlength="60">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Telefone</label>
+                <input type="tel" id="contactPhone" class="form-input" value="+1 (555) 123-4567" maxlength="30">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Website</label>
+                <input type="url" id="contactWebsite" class="form-input" value="www.company.com" maxlength="60">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Endereço</label>
+                <input type="text" id="contactAddress" class="form-input" value="123 Business Ave, Suite 100, NY 10001" maxlength="80">
+            </div>
+            
+            <!-- Identidade Visual -->
+            <div class="section-title">🎨 Identidade Visual</div>
+            
+            <div class="form-group">
+                <label class="form-label">Logo da Empresa</label>
+                <div class="upload-zone" id="logoUploadZone">
+                    <div class="upload-icon">🏢</div>
+                    <p class="upload-text">Arraste o logo ou <strong>clique para fazer upload</strong></p>
+                    <p class="helper-text">Formato: PNG com fundo transparente (recomendado)</p>
+                </div>
+                <input type="file" id="logoInput" class="photo-input" accept="image/*">
+                <div class="logo-preview-mini" id="logoPreview">
+                    <img id="logoPreviewImg" src="" alt="Logo Preview">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">QR Code (opcional)</label>
+                <div class="upload-zone" id="qrUploadZone">
+                    <div class="upload-icon">📱</div>
+                    <p class="upload-text">Arraste o QR Code ou <strong>clique para fazer upload</strong></p>
+                    <p class="helper-text">Link para vCard, LinkedIn ou site</p>
+                </div>
+                <input type="file" id="qrInput" class="photo-input" accept="image/*">
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetAll()">🔄 Resetar</button>
+                <button class="btn btn-primary" onclick="downloadCards()">📄 Baixar PDF</button>
+            </div>
+        </div>
+        
+        <!-- Preview Area -->
+        <div class="preview-area">
+            <div class="card-toggle">
+                <button class="toggle-btn active" onclick="showFront()">Frente</button>
+                <button class="toggle-btn" onclick="showBack()">Verso</button>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card-flipper" id="cardFlipper">
+                    <!-- Front Card -->
+                    <div class="business-card card-front" id="cardFront">
+                        <div class="card-front-top">
+                            <div class="card-logo-container" id="logoContainerFront">
+                                <!-- Logo will be inserted here -->
+                            </div>
+                            <div class="card-photo-front" id="photoContainerFront">
+                                <!-- Photo will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="card-front-bottom">
+                            <div class="card-name" id="displayName">John Smith</div>
+                            <div class="card-position" id="displayPosition">Solutions Architect</div>
+                            <div class="card-department" id="displayDepartment">Technology & Innovation</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Back Card -->
+                    <div class="business-card card-back" id="cardBack">
+                        <div class="card-back-header">
+                            <div class="card-logo-back" id="logoContainerBack">
+                                <!-- Logo will be inserted here -->
+                            </div>
+                            <div class="card-qr" id="qrContainer">
+                                QR Code
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <div class="contact-icon">📧</div>
+                                <div class="contact-text" id="displayEmail">john.smith@company.com</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📞</div>
+                                <div class="contact-text" id="displayPhone">+1 (555) 123-4567</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">🌐</div>
+                                <div class="contact-text" id="displayWebsite">www.company.com</div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📍</div>
+                                <div class="contact-text" id="displayAddress">123 Business Ave, Suite 100, NY 10001</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-back-footer">
+                            <div class="company-info">Professional Business Solutions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dimension-label">
+                Dimensões: 88,9mm × 50,8mm (padrão internacional) • Exportação: PDF com 2 páginas (Frente + Verso)
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // State
+        let uploadedPhoto = null;
+        let uploadedLogo = null;
+        let uploadedQR = null;
+        
+        // Elements
+        const personName = document.getElementById('personName');
+        const personPosition = document.getElementById('personPosition');
+        const personDepartment = document.getElementById('personDepartment');
+        const contactEmail = document.getElementById('contactEmail');
+        const contactPhone = document.getElementById('contactPhone');
+        const contactWebsite = document.getElementById('contactWebsite');
+        const contactAddress = document.getElementById('contactAddress');
+        
+        const displayName = document.getElementById('displayName');
+        const displayPosition = document.getElementById('displayPosition');
+        const displayDepartment = document.getElementById('displayDepartment');
+        const displayEmail = document.getElementById('displayEmail');
+        const displayPhone = document.getElementById('displayPhone');
+        const displayWebsite = document.getElementById('displayWebsite');
+        const displayAddress = document.getElementById('displayAddress');
+        
+        // Character counters
+        const nameCount = document.getElementById('nameCount');
+        const positionCount = document.getElementById('positionCount');
+        const departmentCount = document.getElementById('departmentCount');
+        
+        // Input event listeners
+        personName.addEventListener('input', (e) => {
+            displayName.textContent = e.target.value || 'Nome';
+            nameCount.textContent = e.target.value.length;
+        });
+        
+        personPosition.addEventListener('input', (e) => {
+            displayPosition.textContent = e.target.value || 'Cargo';
+            positionCount.textContent = e.target.value.length;
+        });
+        
+        personDepartment.addEventListener('input', (e) => {
+            displayDepartment.textContent = e.target.value || 'Departamento';
+            departmentCount.textContent = e.target.value.length;
+        });
+        
+        contactEmail.addEventListener('input', (e) => {
+            displayEmail.textContent = e.target.value || 'email@empresa.com';
+        });
+        
+        contactPhone.addEventListener('input', (e) => {
+            displayPhone.textContent = e.target.value || 'Telefone';
+        });
+        
+        contactWebsite.addEventListener('input', (e) => {
+            displayWebsite.textContent = e.target.value || 'website.com';
+        });
+        
+        contactAddress.addEventListener('input', (e) => {
+            displayAddress.textContent = e.target.value || 'Endereço';
+        });
+        
+        // Photo upload
+        const photoUploadZone = document.getElementById('photoUploadZone');
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+        const photoPreviewImg = document.getElementById('photoPreviewImg');
+        
+        setupUploadZone(photoUploadZone, photoInput, handlePhotoUpload);
+        
+        function handlePhotoUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedPhoto = e.target.result;
+                photoPreviewImg.src = uploadedPhoto;
+                photoPreview.classList.add('active');
+                updatePhotoDisplay();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updatePhotoDisplay() {
+            const photoContainer = document.getElementById('photoContainerFront');
+            if (uploadedPhoto) {
+                photoContainer.innerHTML = `<img src="${uploadedPhoto}" alt="Photo">`;
+            }
+        }
+        
+        // Logo upload
+        const logoUploadZone = document.getElementById('logoUploadZone');
+        const logoInput = document.getElementById('logoInput');
+        const logoPreview = document.getElementById('logoPreview');
+        const logoPreviewImg = document.getElementById('logoPreviewImg');
+        
+        setupUploadZone(logoUploadZone, logoInput, handleLogoUpload);
+        
+        function handleLogoUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedLogo = e.target.result;
+                logoPreviewImg.src = uploadedLogo;
+                logoPreview.classList.add('active');
+                updateLogoDisplay();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updateLogoDisplay() {
+            const logoFront = document.getElementById('logoContainerFront');
+            const logoBack = document.getElementById('logoContainerBack');
+            
+            if (uploadedLogo) {
+                logoFront.innerHTML = `<img src="${uploadedLogo}" alt="Logo" class="card-logo">`;
+                logoBack.innerHTML = `<img src="${uploadedLogo}" alt="Logo" class="card-logo">`;
+            }
+        }
+        
+        // QR Code upload
+        const qrUploadZone = document.getElementById('qrUploadZone');
+        const qrInput = document.getElementById('qrInput');
+        
+        setupUploadZone(qrUploadZone, qrInput, handleQRUpload);
+        
+        function handleQRUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedQR = e.target.result;
+                updateQRDisplay();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updateQRDisplay() {
+            const qrContainer = document.getElementById('qrContainer');
+            if (uploadedQR) {
+                qrContainer.innerHTML = `<img src="${uploadedQR}" alt="QR Code">`;
+            }
+        }
+        
+        // Generic upload zone setup
+        function setupUploadZone(zone, input, handler) {
+            zone.addEventListener('click', () => input.click());
+            
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            });
+            
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+            
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    handler(file);
+                }
+            });
+            
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    handler(file);
+                }
+            });
+        }
+        
+        // Card toggle with flip animation
+        function showFront() {
+            const flipper = document.getElementById('cardFlipper');
+            flipper.classList.remove('flipped');
+            document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+            document.querySelectorAll('.toggle-btn')[1].classList.remove('active');
+        }
+        
+        function showBack() {
+            const flipper = document.getElementById('cardFlipper');
+            flipper.classList.add('flipped');
+            document.querySelectorAll('.toggle-btn')[0].classList.remove('active');
+            document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+        }
+        
+        // Download cards as PDF
+        async function downloadCards() {
+            const cardFront = document.getElementById('cardFront');
+            const cardBack = document.getElementById('cardBack');
+            const flipper = document.getElementById('cardFlipper');
+            
+            // Salvar estado atual
+            const wasFlipped = flipper.classList.contains('flipped');
+            
+            // Temporariamente desabilitar animação para captura
+            flipper.style.transition = 'none';
+            
+            try {
+                // Mostrar frente
+                flipper.classList.remove('flipped');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Capture front
+                const canvasFront = await html2canvas(cardFront, {
+                    backgroundColor: '#0e1713',
+                    scale: 3,
+                    logging: false,
+                    width: 1050,
+                    height: 600,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Mostrar verso
+                flipper.classList.add('flipped');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Capture back
+                const canvasBack = await html2canvas(cardBack, {
+                    backgroundColor: '#ffffff',
+                    scale: 3,
+                    logging: false,
+                    width: 1050,
+                    height: 600,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Criar PDF
+                const { jsPDF } = window.jspdf;
+                
+                // Dimensões do cartão em mm (padrão: 88.9mm x 50.8mm)
+                const cardWidth = 88.9;
+                const cardHeight = 50.8;
+                
+                // Criar PDF no tamanho do cartão
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: [cardWidth, cardHeight]
+                });
+                
+                // Adicionar frente (Página 1)
+                const imgDataFront = canvasFront.toDataURL('image/jpeg', 1.0);
+                pdf.addImage(imgDataFront, 'JPEG', 0, 0, cardWidth, cardHeight, '', 'FAST');
+                
+                // Adicionar nova página para o verso
+                pdf.addPage();
+                
+                // Adicionar verso (Página 2)
+                const imgDataBack = canvasBack.toDataURL('image/jpeg', 1.0);
+                pdf.addImage(imgDataBack, 'JPEG', 0, 0, cardWidth, cardHeight, '', 'FAST');
+                
+                // Download do PDF
+                const name = personName.value || 'business_card';
+                const filename = `${name.toLowerCase().replace(/\s+/g, '_')}_card.pdf`;
+                pdf.save(filename);
+                
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Erro ao gerar o PDF. Tente novamente.');
+            } finally {
+                // Restaurar transição
+                flipper.style.transition = '';
+                
+                // Restaurar estado original
+                if (wasFlipped) {
+                    flipper.classList.add('flipped');
+                } else {
+                    flipper.classList.remove('flipped');
+                }
+            }
+        }
+        
+        // Reset all
+        function resetAll() {
+            if (confirm('Resetar todos os campos?')) {
+                personName.value = 'John Smith';
+                personPosition.value = 'Solutions Architect';
+                personDepartment.value = 'Technology & Innovation';
+                contactEmail.value = 'john.smith@company.com';
+                contactPhone.value = '+1 (555) 123-4567';
+                contactWebsite.value = 'www.company.com';
+                contactAddress.value = '123 Business Ave, Suite 100, NY 10001';
+                
+                displayName.textContent = 'John Smith';
+                displayPosition.textContent = 'Solutions Architect';
+                displayDepartment.textContent = 'Technology & Innovation';
+                displayEmail.textContent = 'john.smith@company.com';
+                displayPhone.textContent = '+1 (555) 123-4567';
+                displayWebsite.textContent = 'www.company.com';
+                displayAddress.textContent = '123 Business Ave, Suite 100, NY 10001';
+                
+                nameCount.textContent = '10';
+                positionCount.textContent = '19';
+                departmentCount.textContent = '23';
+                
+                uploadedPhoto = null;
+                uploadedLogo = null;
+                uploadedQR = null;
+                
+                photoPreview.classList.remove('active');
+                logoPreview.classList.remove('active');
+                
+                photoInput.value = '';
+                logoInput.value = '';
+                qrInput.value = '';
+                
+                document.getElementById('photoContainerFront').innerHTML = '';
+                document.getElementById('logoContainerFront').innerHTML = '';
+                document.getElementById('logoContainerBack').innerHTML = '';
+                document.getElementById('qrContainer').innerHTML = 'QR Code';
+                
+                showFront();
+            }
+        }
+    </script>
+</body>
+</html>

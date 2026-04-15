@@ -547,19 +547,32 @@
                 <!-- TEMPLATE GRID -->
                 <div class="template-grid" id="templateGrid">
                     <!-- Quote Post -->
-                    <a href="quote-card-generator_17.html" style="text-decoration: none; color: inherit;">
-                        <div class="template-card" data-category="linkedin instagram social">
-                            <div class="template-preview" style="background-image: url('quote-template.png'); background-size: cover; background-position: center;"></div>
-                            <div class="template-info">
-                                <div class="template-header">
-                                    <span class="template-category">SOCIAL MEDIA</span>
-                                    <svg class="template-icon" viewBox="0 0 24 24" fill="#7dbf41">
-                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-                                    </svg>
-                                </div>
-                                <h3 class="template-title">Quote Post</h3>
-                                <p class="template-description">Professional testimonial layout for thought leadership.</p>
+                    <a href="quote-card-generator_17.html" class="template-card" data-category="linkedin instagram social" style="text-decoration: none; color: inherit;">
+                        <div class="template-preview" style="background-image: url('quote-template.png'); background-size: cover; background-position: center;"></div>
+                        <div class="template-info">
+                            <div class="template-header">
+                                <span class="template-category">SOCIAL MEDIA</span>
+                                <svg class="template-icon" viewBox="0 0 24 24" fill="#7dbf41">
+                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                                </svg>
                             </div>
+                            <h3 class="template-title">Quote Post</h3>
+                            <p class="template-description">Professional testimonial layout for thought leadership.</p>
+                        </div>
+                    </a>
+
+                    <!-- Physical Business Card -->
+                    <a href="business-card-generator_2.html" class="template-card" data-category="document" style="text-decoration: none; color: inherit;">
+                        <div class="template-preview" style="background-image: url('business-card-template.png'); background-size: cover; background-position: center;"></div>
+                        <div class="template-info">
+                            <div class="template-header">
+                                <span class="template-category">PRINT</span>
+                                <svg class="template-icon" viewBox="0 0 24 24" fill="#7dbf41">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-7-2h2v-4h4v-2h-4V7h-2v4H8v2h4z"/>
+                                </svg>
+                            </div>
+                            <h3 class="template-title">Physical Visit Card</h3>
+                            <p class="template-description">88,9mm × 50,8mm standard business card with front/back.</p>
                         </div>
                     </a>
 
@@ -737,13 +750,8 @@
             });
         });
 
-        // Template card click handler - desabilitado para permitir links diretos
-        // templateCards.forEach(card => {
-        //     card.addEventListener('click', () => {
-        //         const title = card.querySelector('.template-title').textContent;
-        //         alert(`Opening editor for: ${title}\n\nEsta funcionalidade será implementada em breve!`);
-        //     });
-        // });
+        // Template card click handler - Removido porque agora usamos links diretos
+        // Os cards Quote Post e Business Card têm links, os outros ainda usam o alert
 
         // Add smooth scroll behavior
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

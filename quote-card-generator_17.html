@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Card Editor - Bring IT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <style>
+        /* ===== GLOBALS ===== */
+        * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0px;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* ===== STYLEGUIDE VARIABLES ===== */
+        :root {
+            --bring-itgreen: rgba(125, 191, 65, 1);
+            --bring-itdark-green: rgba(14, 23, 19, 1);
+            --bring-itconcrete: rgba(107, 117, 110, 1);
+            --bring-itpure-white: rgba(255, 255, 255, 1);
+            --roboto-54px-regular-font-family: "Roboto", Helvetica;
+            --roboto-54px-regular-font-weight: 700;
+            --roboto-54px-regular-font-size: 54px;
+            --roboto-54px-regular-letter-spacing: 0px;
+            --roboto-54px-regular-line-height: normal;
+            --roboto-54px-regular-font-style: normal;
+            --roboto-36px-regular-font-family: "Roboto", Helvetica;
+            --roboto-36px-regular-font-weight: 400;
+            --roboto-36px-regular-font-size: 32px;
+            --roboto-36px-regular-letter-spacing: 0px;
+            --roboto-36px-regular-line-height: normal;
+            --roboto-36px-regular-font-style: normal;
+        }
+        
+        /* ===== EDITOR STYLES ===== */
+        .editor-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a231f 0%, #2d3a35 100%);
+        }
+        
+        .editor-panel {
+            width: 450px;
+            background: rgba(14, 23, 19, 0.95);
+            padding: 40px 30px;
+            border-right: 1px solid rgba(125, 191, 65, 0.2);
+        }
+        
+        .editor-title {
+            color: var(--bring-itgreen);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .editor-subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-label {
+            display: block;
+            color: #e0e0e0;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(125, 191, 65, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            font-family: "Roboto", sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--bring-itgreen);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .upload-zone {
+            border: 3px dashed rgba(125, 191, 65, 0.4);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--bring-itgreen);
+            background: rgba(125, 191, 65, 0.08);
+        }
+        
+        .upload-zone.dragover {
+            border-color: var(--bring-itgreen);
+            background: rgba(125, 191, 65, 0.15);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            color: #999;
+            font-size: 14px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .upload-text strong {
+            color: var(--bring-itgreen);
+        }
+        
+        #photoInput {
+            display: none;
+        }
+        
+        .photo-preview-mini {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px auto 0;
+            overflow: hidden;
+            border: 3px solid var(--bring-itgreen);
+            display: none;
+        }
+        
+        .photo-preview-mini.active {
+            display: block;
+        }
+        
+        .photo-preview-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        .btn-primary {
+            background: var(--bring-itgreen);
+            color: #0e1713;
+        }
+        
+        .btn-primary:hover {
+            background: #8fd44d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(125, 191, 65, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .preview-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow: hidden;
+        }
+        
+        #cardPreview {
+            transform: scale(0.5);
+            transform-origin: center center;
+        }
+        
+        .person-quote .text-wrapper,
+        .person-quote .text-wrapper-2,
+        .person-quote .p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        
+        /* ===== CARD PREVIEW STYLES (from Figma) ===== */
+        .person-quote {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            background-color: var(--bring-itgreen);
+            padding: 84px;
+            width: 1080px;
+            height: 1350px;
+            transform-origin: top center;
+        }
+
+        .person-quote .frame {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+            min-height: auto;
+            align-items: flex-start;
+            justify-content: flex-end;
+            position: relative;
+            flex: 0 0 auto;
+            background-color: var(--bring-itpure-white);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .person-quote .div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 48px 72px 0px;
+            position: relative;
+            align-self: stretch;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+
+        .person-quote .logos-ORACLE-BRINGIT {
+            position: relative;
+            width: 492px;
+            height: 40px;
+        }
+
+        .person-quote .frame-2 {
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 6px;
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .person-quote .ellipse {
+            display: block;
+            position: relative;
+            width: 6px;
+            height: 6px;
+            background-color: #d9d9d9;
+            border-radius: 3px;
+        }
+
+        .person-quote .line-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+            padding: 48px 0px;
+            position: relative;
+            align-self: stretch;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+
+        .person-quote .line {
+            position: relative;
+            width: 100%;
+            height: 1px;
+            background-color: #e0e0e0;
+            margin-top: -1px;
+        }
+
+        .person-quote .frame-3 {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 77px;
+            padding: 0px 72px 72px;
+            position: relative;
+            align-self: stretch;
+            width: 100%;
+            flex: 0 0 auto;
+            margin: 0;
+        }
+
+        .person-quote .frame-4 {
+            display: flex;
+            align-items: center;
+            gap: 51px;
+            position: relative;
+            align-self: stretch;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+
+        .person-quote .frame-5 {
+            position: relative;
+            width: 199px;
+            height: 199px;
+            flex-shrink: 0;
+            border-radius: 100px;
+            background: var(--bring-itconcrete);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .person-quote .frame-6 {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: auto;
+            align-items: flex-start;
+            gap: 12px;
+            position: relative;
+        }
+
+        .person-quote .text-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+            margin-top: -1px;
+            margin-bottom: 0;
+            font-family: var(--roboto-54px-regular-font-family);
+            font-weight: 400;
+            color: var(--bring-itdark-green);
+            font-size: var(--roboto-54px-regular-font-size);
+            letter-spacing: var(--roboto-54px-regular-letter-spacing);
+            line-height: var(--roboto-54px-regular-line-height);
+            font-style: var(--roboto-54px-regular-font-style);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .person-quote .text-wrapper-2 {
+            position: relative;
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+            margin: 0;
+            font-family: var(--roboto-36px-regular-font-family);
+            font-weight: var(--roboto-36px-regular-font-weight);
+            color: var(--bring-itconcrete);
+            font-size: var(--roboto-36px-regular-font-size);
+            letter-spacing: var(--roboto-36px-regular-letter-spacing);
+            line-height: var(--roboto-36px-regular-line-height);
+            font-style: var(--roboto-36px-regular-font-style);
+        }
+
+        .person-quote .p {
+            position: relative;
+            align-self: stretch;
+            margin: 0;
+            padding: 0;
+            font-family: var(--roboto-54px-regular-font-family);
+            font-weight: 400;
+            color: var(--bring-itdark-green);
+            font-size: var(--roboto-54px-regular-font-size);
+            letter-spacing: var(--roboto-54px-regular-letter-spacing);
+            line-height: var(--roboto-54px-regular-line-height);
+            font-style: var(--roboto-54px-regular-font-style);
+        }
+        
+        .tip {
+            background: rgba(125, 191, 65, 0.1);
+            border-left: 4px solid var(--bring-itgreen);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #ccc;
+            font-family: "Roboto", sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* ===== RESPONSIVIDADE MOBILE ===== */
+        @media (max-width: 968px) {
+            body {
+                overflow: auto;
+            }
+            
+            .editor-wrapper {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+                overflow: visible;
+            }
+            
+            .editor-panel {
+                width: 100%;
+                max-height: none;
+                border-right: none;
+                border-bottom: 1px solid rgba(125, 191, 65, 0.2);
+                padding: 30px 20px 15px;
+            }
+            
+            .action-buttons {
+                margin-top: 20px;
+                margin-bottom: 0;
+            }
+            
+            .preview-container {
+                min-height: auto;
+                padding: 0px 5px 30px;
+                overflow: visible;
+            }
+            
+            #cardPreview {
+                transform: scale(0.45);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .editor-panel {
+                padding: 25px 15px 10px;
+            }
+            
+            .editor-title {
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+            
+            .editor-subtitle {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 18px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                margin-top: 15px;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .tip {
+                margin-top: 12px;
+                font-size: 12px;
+                padding: 10px;
+            }
+            
+            .preview-container {
+                padding: 0px 5px 25px;
+                min-height: auto;
+            }
+            
+            #cardPreview {
+                transform: scale(0.43);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .editor-panel {
+                padding: 20px 12px 8px;
+            }
+            
+            .editor-title {
+                font-size: 20px;
+                margin-bottom: 6px;
+            }
+            
+            .editor-subtitle {
+                font-size: 12px;
+                margin-bottom: 18px;
+            }
+            
+            .form-label {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+            
+            .form-input {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .form-group {
+                margin-bottom: 16px;
+            }
+            
+            .tip {
+                font-size: 11px;
+                padding: 8px;
+                margin-top: 10px;
+            }
+            
+            .action-buttons {
+                margin-top: 12px;
+                gap: 8px;
+            }
+            
+            .preview-container {
+                padding: 0px 5px 20px;
+                min-height: auto;
+            }
+            
+            #cardPreview {
+                transform: scale(0.4);
+            }
+        }
+        
+        @media (max-width: 390px) {
+            .editor-panel {
+                padding: 18px 10px 5px;
+            }
+            
+            .preview-container {
+                padding: 0px 2px 15px;
+            }
+            
+            #cardPreview {
+                transform: scale(0.37);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-wrapper">
+        <!-- Painel de Edição -->
+        <div class="editor-panel">
+            <h1 class="editor-title">🎨 Quote Card Editor</h1>
+            <p class="editor-subtitle">Customize your Bring IT card</p>
+            
+            <div class="form-group">
+                <label class="form-label">📸 Photo</label>
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">
+                        <strong>Click</strong> or drag a photo
+                    </div>
+                </div>
+                <input type="file" id="photoInput" accept="image/*">
+                <div class="photo-preview-mini" id="photoPreviewMini">
+                    <img id="previewMiniImg" src="" alt="Preview">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">👤 Name</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="personName" 
+                    placeholder="e.g. John Smith"
+                    value="John Smith"
+                    maxlength="50"
+                >
+                <div class="char-counter"><span id="nameCount">10</span>/50</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">💼 Position</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="personRole" 
+                    placeholder="e.g. Solutions Architect"
+                    value="Solutions Architect"
+                    maxlength="60"
+                >
+                <div class="char-counter"><span id="roleCount">19</span>/60</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">💬 Quote</label>
+                <textarea 
+                    class="form-input form-textarea" 
+                    id="quoteText" 
+                    placeholder="Type your quote here..."
+                    maxlength="300"
+                >"NetSuite's future is about turning intelligence into action. This webinar is the starting point to transform that potential into real projects within your business, now"</textarea>
+                <div class="char-counter"><span id="quoteCount">166</span>/300</div>
+            </div>
+            
+            <div class="tip">
+                💡 <strong>Tip:</strong> Use photos with neutral background. The ideal quote length is between 150-250 characters.
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="downloadCard()">
+                    ⬇️ Download PNG
+                </button>
+                <button class="btn btn-secondary" onclick="resetAll()">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+        
+        <!-- Preview do Card -->
+        <div class="preview-container">
+            <main class="person-quote" id="cardPreview">
+                <article class="frame">
+                    <header class="div">
+                        <div class="logos-ORACLE-BRINGIT" role="img" aria-label="Oracle NetSuite and Bring IT logos">
+                            <svg width="492" height="40" viewBox="0 0 492 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1_91)">
+                                <path d="M378.888 17.796C380.213 17.18 380.855 15.7563 380.855 13.4771C380.855 9.72623 379.316 7.82343 376.279 7.82343H366.693C364.802 7.82343 363.767 8.92541 363.767 10.924V25.024C363.767 27.7618 365.555 28.0767 366.893 28.0767H376.479C378.212 28.0767 379.468 27.488 380.22 26.3381C380.813 25.421 381.103 24.1342 381.103 22.4025C381.103 19.8152 380.427 18.3778 378.881 17.796M367.066 19.2608H375.41C377.08 19.2608 377.728 20.1095 377.728 22.2793C377.728 24.449 377.114 25.2841 375.189 25.2841H368.025C367.176 25.2841 367.066 25.1609 367.066 24.1684V19.2608ZM375.106 16.475H367.066V11.5537C367.066 10.8008 367.232 10.6366 367.991 10.6366H375.292C376.859 10.6366 377.445 11.4032 377.445 13.4566C377.445 15.8248 376.942 16.475 375.106 16.475Z" fill="#0E1713"/>
+                                <path d="M397.784 20.6639C401.034 20.6639 402.614 18.5147 402.614 14.0931C402.614 11.41 402.083 7.8371 397.487 7.8371H388.356C386.203 7.8371 385.113 8.94593 385.113 11.1431V28.0767H388.412V11.629C388.412 10.8624 388.66 10.6297 389.488 10.6297H396.5C398.819 10.6297 399.205 11.6975 399.205 14.0999C399.205 16.7077 398.874 17.8713 396.921 17.8713H392.09C391.172 17.8713 390.579 18.3915 390.579 19.1923V19.6441C390.579 20.2875 391.062 20.794 391.427 21.1225L399.074 28.0835H403.574L395.334 20.6776H397.79L397.784 20.6639Z" fill="#0E1713"/>
+                                <path d="M410.033 7.8371H406.735V28.0903H410.033V7.8371Z" fill="#0E1713"/>
+                                <path d="M429.661 24.2711C429.661 24.3053 429.661 24.3737 429.654 24.4217C429.605 24.4217 429.557 24.3395 429.46 24.1821C429.44 24.1547 429.426 24.1205 429.405 24.0931L420.02 9.21289C419.495 8.38469 418.791 7.62494 417.197 7.62494C415.161 7.62494 414.436 8.99386 414.436 10.2807V28.1178H417.68V11.7865C417.68 11.6359 417.721 11.5743 417.742 11.5538C417.777 11.5674 417.859 11.6222 418.011 11.8755L427.314 26.6393C428.073 27.844 428.901 28.3299 430.192 28.3299C431.89 28.3299 432.897 27.2827 432.897 25.5305V7.85081H429.654V24.2642L429.661 24.2711Z" fill="#0E1713"/>
+                                <path d="M455.023 18.1109H451.724V24.2847C451.724 25.0924 451.552 25.2704 450.765 25.2704H445.768C441.607 25.2704 440.13 23.3539 440.13 17.9466C440.13 12.5394 441.71 10.6229 446.169 10.6229H454.581V7.8371H445.313C437.708 7.8371 436.734 13.2512 436.734 17.9671C436.734 21.191 437.238 23.4497 438.322 25.0924C439.654 27.1116 441.821 28.0972 444.94 28.0972H452.104C454.043 28.0972 455.03 27.1253 455.03 25.2088L455.016 24.8734V18.1177L455.023 18.1109Z" fill="#0E1713"/>
+                                <path d="M470.164 7.8371H466.865V28.0903H470.164V7.8371Z" fill="#0E1713"/>
+                                <path d="M472.739 7.8371V10.6229H480.71V28.0698H484.029V10.6229H492V7.8371H472.739Z" fill="#0E1713"/>
+                                <path d="M333.512 0.0205466C334.865 -0.0410551 336.224 0.0273912 337.563 0.239575C339.06 0.472292 340.524 0.876125 341.931 1.43054C342.525 1.6701 343.112 1.9302 343.684 2.22452C344.009 2.38879 344.347 2.55306 344.637 2.77209C345.216 3.22383 345.389 3.81247 345.072 4.49009C344.761 5.15402 344.181 5.32513 343.512 5.1814C343.187 5.11295 342.877 4.95552 342.58 4.7981C335.782 1.20467 327.349 2.47092 321.925 7.90556C315.444 14.4011 315.265 24.9213 321.517 31.6222C321.635 31.7454 321.752 31.8686 321.862 31.9918C322.58 32.7584 322.635 33.5318 322.021 34.141C321.407 34.757 320.537 34.6749 319.785 33.9015C319.054 33.1554 318.398 32.3546 317.798 31.5058C309.254 19.384 316.321 2.72417 331.062 0.260109C331.635 0.164284 332.214 0.123216 332.787 0.0753036C333.029 0.0547697 333.263 0.0410805 333.505 0.0342358" fill="#7DBF41"/>
+                                <path d="M334.381 32.204C336.535 32.2656 338.515 31.6838 340.392 30.6913C341.221 30.2533 342.083 30.4654 342.47 31.1568C342.877 31.8891 342.622 32.6283 341.786 33.1349C341.717 33.1759 341.635 33.2101 341.559 33.2512C332.194 38.2204 320.682 32.334 319.385 21.9233C318.978 18.6448 319.592 15.5784 321.234 12.7242C321.828 11.6838 323.036 11.5743 323.664 12.4572C324.078 13.0322 323.954 13.6071 323.629 14.1889C322.601 16.037 322.09 18.0151 322.097 20.1301C322.118 26.8378 327.57 32.2108 334.375 32.2108" fill="#7DBF41"/>
+                                <path d="M354.623 19.7125C354.568 22.0466 354.243 24.3327 353.47 26.5503C352.739 28.6585 351.662 30.6503 350.282 32.4162C348.922 34.1547 347.28 35.6674 345.423 36.872C342.932 38.4874 340.02 39.5893 337.052 39.8905C336.121 39.9863 335.106 40.0753 334.174 39.9316C333.519 39.8289 332.96 39.5072 332.918 38.7885C332.898 38.4189 333.043 38.0561 333.305 37.7961C333.65 37.4607 334.036 37.447 334.492 37.3991C335.748 37.2416 337.018 37.1458 338.253 36.8926C345.458 35.3867 351.193 28.857 351.752 21.588C351.904 19.6373 351.731 17.7413 351.29 15.859C351.055 14.8392 351.393 14.0863 352.194 13.8946C353.105 13.6756 353.76 14.1136 354.022 15.1609C354.43 16.7967 354.657 18.4531 354.63 19.7262" fill="#7DBF41"/>
+                                <path d="M349.55 20.0068C349.585 21.2183 349.412 22.4093 349.129 23.5797C348.881 24.627 348.212 25.1198 347.342 24.935C346.486 24.7502 346.134 24.0246 346.369 22.9432C347.832 16.1807 343.995 9.94524 337.28 8.27515C334.257 7.52225 331.331 7.91923 328.571 9.39083C327.535 9.94524 326.624 9.76728 326.259 8.93908C325.927 8.18617 326.21 7.46064 327.08 6.99521C330.282 5.27721 333.684 4.68857 337.252 5.4141C343.884 6.75565 348.46 11.5674 349.447 18.1793C349.537 18.7817 349.523 19.4045 349.557 20.0205" fill="#7DBF41"/>
+                                <path d="M334.285 10.178C335.203 10.1643 336.01 10.2806 336.804 10.4928C337.715 10.7324 338.156 11.3416 337.991 12.1287C337.825 12.9432 337.225 13.3539 336.265 13.1965C335.113 12.998 333.967 12.9021 332.815 13.1691C328.17 14.2437 325.851 19.1513 328.018 23.3539C328.336 23.9767 328.474 24.5585 328.039 25.1609C327.708 25.6195 327.211 25.7084 326.673 25.6468C326.1 25.5784 325.803 25.1814 325.548 24.7228C322.325 18.9391 325.92 11.5058 332.504 10.3559C333.118 10.2464 333.733 10.1506 334.271 10.178" fill="#7DBF41"/>
+                                <path d="M341.538 20.0137C341.552 19.4524 341.469 18.9049 341.359 18.3573C341.179 17.4127 341.559 16.7488 342.318 16.5777C343.174 16.3792 343.843 16.8446 344.105 17.8029C345.561 23.2238 341.628 29.0691 336.003 29.8357C335.499 29.9042 334.996 29.9658 334.485 29.9726C333.519 29.9795 332.891 29.4456 332.863 28.6379C332.836 27.7823 333.457 27.1937 334.457 27.1732C336.928 27.1253 338.86 26.078 340.282 24.1068C341.158 22.8953 341.6 21.5195 341.538 20.0137Z" fill="#7DBF41"/>
+                                <path d="M138.647 26.5366C135.748 26.5366 133.305 24.5174 132.539 21.7659H148.647L150.869 18.193H132.539C133.298 15.4209 135.742 13.4154 138.647 13.4154H149.71L151.918 9.84255H138.392C132.981 9.84255 128.592 14.3737 128.592 19.9863C128.592 25.5989 132.981 30.1095 138.392 30.1095H150.027L152.236 26.5366H138.647ZM92.5187 30.1095H104.154L106.363 26.5366H92.7879C89.2682 26.5366 86.4318 23.5934 86.4318 19.9863C86.4318 16.3792 89.2613 13.436 92.7879 13.436H103.837L106.08 9.8494H92.5394C87.1219 9.8494 82.7258 14.3805 82.7258 19.9931C82.7258 25.6057 87.1288 30.1163 92.5394 30.1163M20.9454 26.5366H10.0552C6.54933 26.5366 3.7129 23.5934 3.7129 19.9863C3.7129 16.3792 6.54243 13.436 10.0552 13.436H20.9385C24.4444 13.436 27.2946 16.3655 27.2946 19.9863C27.2946 23.6071 24.4651 26.5366 20.9385 26.5366M9.81364 30.1095H21.2146C26.6252 30.1095 30.9937 25.5783 30.9937 19.9863C30.9937 14.3942 26.6252 9.84255 21.2008 9.84255H9.81364C4.38922 9.8494 0 14.3737 0 19.9863C0 25.5989 4.38232 30.1095 9.81364 30.1095ZM49.4961 23.566C53.1745 23.566 56.1213 20.4996 56.1213 16.7146C56.1213 12.9295 53.1676 9.8494 49.4961 9.8494H33.002V30.1095H36.777V13.436H49.2545C51.0075 13.436 52.4291 14.9007 52.4291 16.7077C52.4291 18.5147 51.0144 20 49.2545 20H38.6334L49.8963 30.1232H55.3622L47.8053 23.5729H49.5237M111.863 26.5434V9.8494H108.088V28.1725C108.088 28.679 108.295 29.1649 108.647 29.514C108.999 29.8973 109.503 30.1026 110.014 30.1026H127.198L129.441 26.5297H111.863V26.5434ZM65.721 22.9705H75.7693L70.4553 14.1204L60.7038 30.1095H56.2524L68.1227 10.9103C68.6265 10.1232 69.5029 9.65775 70.4484 9.65775C71.3939 9.65775 72.2358 10.1095 72.7465 10.8761L84.6513 30.1095H80.2137L78.1226 26.5366H67.9363L65.7141 22.9637L65.721 22.9705Z" fill="#0E1713"/>
+                                <path d="M175.955 25.284L165.942 9.94522L165.9 9.87677H163.34V30.1232H166.073V14.7159L176.086 30.0616L176.128 30.1232H178.688V9.87677H175.955V25.284Z" fill="#0E1713"/>
+                                <path d="M201.745 27.7686C201.552 27.7892 201.352 27.796 201.145 27.796C199.924 27.796 199.323 27.0705 199.323 25.5852V17.8371H202.325V15.5099H199.323V11.5605H197.632L196.666 15.4894L194.251 16.3244V17.8439H196.639V25.6263C196.639 27.1937 196.97 28.371 197.632 29.1307C198.316 29.8905 199.371 30.2738 200.765 30.2738C201.048 30.2738 201.324 30.2669 201.573 30.2464C201.842 30.2258 202.111 30.1916 202.367 30.13L202.484 30.1026V27.6728L202.325 27.6933C202.146 27.7139 201.946 27.7412 201.745 27.7755" fill="#0E1713"/>
+                                <path d="M229.682 24.9555C229.323 25.9 228.778 26.6735 228.06 27.2553C227.363 27.8165 226.611 28.104 225.81 28.104C224.865 28.104 224.147 27.7891 223.664 27.1731C223.174 26.5434 222.926 25.6262 222.926 24.4421V15.5099H220.241V24.5243C220.241 26.4202 220.676 27.8918 221.525 28.9048C222.401 29.9247 223.643 30.438 225.217 30.438C226.245 30.438 227.204 30.1916 228.074 29.7056C228.861 29.2744 229.53 28.6789 230.075 27.926L230.462 30.1369H232.346V15.5167H229.661V24.9692L229.682 24.9555Z" fill="#0E1713"/>
+                                <path d="M234.954 16.7488L236.342 17.6591V30.13H239.019V15.5031H234.954V16.7488Z" fill="#0E1713"/>
+                                <path d="M238.992 10.7597H235.783V13.2854H238.992V10.7597Z" fill="#0E1713"/>
+                                <path d="M248.55 27.7686C248.357 27.7892 248.157 27.796 247.95 27.796C246.728 27.796 246.128 27.0705 246.128 25.5852V17.8371H249.13V15.5099H246.128V11.5605H244.437L243.471 15.4894L241.055 16.3244V17.8439H243.443V25.6263C243.443 27.1937 243.774 28.371 244.437 29.1307C245.12 29.8905 246.176 30.2738 247.57 30.2738C247.853 30.2738 248.129 30.2669 248.377 30.2464C248.647 30.2258 248.916 30.1916 249.171 30.13L249.288 30.1026V27.6728L249.13 27.6933C248.95 27.7139 248.75 27.7412 248.55 27.7755" fill="#0E1713"/>
+                                <path d="M253.443 21.4579C253.533 20.2053 253.871 19.2402 254.458 18.5832C255.079 17.8918 255.962 17.5359 257.087 17.5359C258.274 17.5359 259.13 17.8508 259.633 18.4736C260.137 19.076 260.4 20.0821 260.42 21.4647H253.443V21.4579ZM263.022 21.9644C263.022 17.4743 261.028 15.2019 257.087 15.2019C255.051 15.2019 253.464 15.8453 252.36 17.1184C251.248 18.4257 250.731 20.1848 250.731 22.6831C250.731 25.1814 251.304 27.1389 252.442 28.4599C253.595 29.7673 255.313 30.4312 257.542 30.4312C258.522 30.4312 259.433 30.3354 260.255 30.1574C261.103 29.9658 261.787 29.7125 262.29 29.3977L262.36 29.3566V26.9541L262.152 27.05C261.421 27.3922 260.696 27.6454 259.999 27.8097C259.302 27.974 258.557 28.0561 257.77 28.0561C256.383 28.0561 255.327 27.7002 254.63 27.002C253.954 26.3039 253.553 25.2019 253.436 23.7166H263.015V21.9781L263.022 21.9644Z" fill="#0E1713"/>
+                                <path d="M183.719 21.4579C183.809 20.2053 184.147 19.2402 184.734 18.5832C185.355 17.885 186.238 17.5359 187.363 17.5359C188.55 17.5359 189.406 17.8508 189.91 18.4668C190.414 19.076 190.676 20.0753 190.697 21.4579H183.719ZM187.363 15.2019C185.327 15.2019 183.74 15.8453 182.629 17.1184C181.518 18.4257 181 20.1848 181 22.6762C181 25.1677 181.573 27.1321 182.712 28.4599C183.871 29.7673 185.583 30.4312 187.812 30.4312C188.792 30.4312 189.703 30.3354 190.524 30.1506C191.373 29.9658 192.056 29.7125 192.56 29.3908L192.629 29.3498V26.9473L192.422 27.0431C191.69 27.3853 190.973 27.6386 190.269 27.8029C189.572 27.9603 188.826 28.0493 188.046 28.0493C186.659 28.0493 185.603 27.6933 184.906 26.9952C184.23 26.297 183.83 25.1951 183.712 23.7098H193.291V21.9712C193.291 17.4812 191.297 15.2087 187.356 15.2087" fill="#0E1713"/>
+                                <path d="M217.039 21.3415C216.286 20.4312 214.996 19.603 213.209 18.8843L211.166 18.063C209.896 17.5428 208.999 17.0431 208.502 16.5777C208.019 16.1259 207.777 15.5989 207.777 14.9623C207.777 13.0116 209.144 12.0671 211.959 12.0671C213.457 12.0671 215.113 12.4709 216.894 13.2649L217.094 13.3539V10.7871L217.018 10.746C216.355 10.3764 215.548 10.0821 214.616 9.88363C213.692 9.6646 212.774 9.55508 211.897 9.55508C209.785 9.55508 208.095 10.0479 206.866 11.013C205.631 11.9918 205.003 13.3402 205.003 15.0308C205.003 16.2149 205.389 17.2621 206.155 18.1519C206.928 19.0075 208.198 19.7946 209.923 20.4928L211.973 21.3142C213.298 21.8343 214.216 22.3545 214.713 22.8474C215.196 23.3265 215.438 23.9425 215.438 24.6886C215.438 25.7084 215.044 26.4818 214.223 27.0636C213.422 27.6454 212.277 27.9398 210.828 27.9398C209.082 27.9398 207.225 27.5291 205.307 26.7146L205.106 26.6324V29.206L205.189 29.2471C205.645 29.4729 206.197 29.6783 206.832 29.8562C207.474 30.0411 208.171 30.1916 208.895 30.3012C209.641 30.4107 210.358 30.4654 211.041 30.4654C213.278 30.4654 215.044 29.9589 216.286 28.9528C217.556 27.9192 218.198 26.4682 218.198 24.6338C218.198 23.3607 217.798 22.2519 217.018 21.3552" fill="#0E1713"/>
+                                <path d="M288.916 0H288.226V40H288.916V0Z" fill="#0E1713"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_1_91">
+                                <rect width="492" height="40" fill="white"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="frame-2" aria-hidden="true">
+                            <span class="ellipse"></span>
+                            <span class="ellipse"></span>
+                            <span class="ellipse"></span>
+                        </div>
+                    </header>
+                    <div class="line-wrapper" role="separator" aria-hidden="true">
+                        <div class="line"></div>
+                    </div>
+                    <section class="frame-3">
+                        <div class="frame-4">
+                            <div class="frame-5" role="img" aria-label="Photo" id="photoFrame"></div>
+                            <div class="frame-6">
+                                <h2 class="text-wrapper" id="displayName">John Smith</h2>
+                                <p class="text-wrapper-2" id="displayRole">Solutions Architect</p>
+                            </div>
+                        </div>
+                        <blockquote class="p" id="displayQuote">
+                            "NetSuite's future is about turning intelligence into action. This webinar is the starting point to transform that potential into real projects within your business, now"
+                        </blockquote>
+                    </section>
+                </article>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        let uploadedPhotoURL = null;
+        
+        // Upload handlers
+        const uploadZone = document.getElementById('uploadZone');
+        const photoInput = document.getElementById('photoInput');
+        const photoPreviewMini = document.getElementById('photoPreviewMini');
+        const previewMiniImg = document.getElementById('previewMiniImg');
+        const photoFrame = document.getElementById('photoFrame');
+        
+        uploadZone.addEventListener('click', () => photoInput.click());
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+        
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handlePhotoUpload(file);
+            }
+        });
+        
+        photoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handlePhotoUpload(file);
+            }
+        });
+        
+        function handlePhotoUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedPhotoURL = e.target.result;
+                previewMiniImg.src = uploadedPhotoURL;
+                photoPreviewMini.classList.add('active');
+                updatePhotoPreview();
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updatePhotoPreview() {
+            if (uploadedPhotoURL) {
+                photoFrame.style.backgroundImage = `url(${uploadedPhotoURL})`;
+                photoFrame.innerHTML = '';
+            }
+        }
+        
+        // Text input handlers
+        const personName = document.getElementById('personName');
+        const personRole = document.getElementById('personRole');
+        const quoteText = document.getElementById('quoteText');
+        
+        const displayName = document.getElementById('displayName');
+        const displayRole = document.getElementById('displayRole');
+        const displayQuote = document.getElementById('displayQuote');
+        
+        const nameCount = document.getElementById('nameCount');
+        const roleCount = document.getElementById('roleCount');
+        const quoteCount = document.getElementById('quoteCount');
+        
+        personName.addEventListener('input', (e) => {
+            displayName.textContent = e.target.value || 'Name';
+            nameCount.textContent = e.target.value.length;
+        });
+        
+        personRole.addEventListener('input', (e) => {
+            displayRole.textContent = e.target.value || 'Position';
+            roleCount.textContent = e.target.value.length;
+        });
+        
+        quoteText.addEventListener('input', (e) => {
+            displayQuote.textContent = e.target.value || 'Quote';
+            quoteCount.textContent = e.target.value.length;
+        });
+        
+        // Download function
+        async function downloadCard() {
+            const cardElement = document.getElementById('cardPreview');
+            const previewContainer = cardElement.parentElement;
+            
+            // Salvar estilos originais
+            const originalCardTransform = cardElement.style.transform;
+            const originalContainerStyle = {
+                display: previewContainer.style.display,
+                alignItems: previewContainer.style.alignItems,
+                justifyContent: previewContainer.style.justifyContent,
+                padding: previewContainer.style.padding
+            };
+            
+            // Configurar para export
+            cardElement.style.transform = 'scale(1)';
+            previewContainer.style.display = 'flex';
+            previewContainer.style.alignItems = 'center';
+            previewContainer.style.justifyContent = 'center';
+            previewContainer.style.padding = '0';
+            
+            try {
+                const canvas = await html2canvas(cardElement, {
+                    backgroundColor: '#7dbf41',
+                    scale: 2,
+                    logging: false,
+                    width: 1080,
+                    height: 1350,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Criar canvas final no tamanho exato
+                const finalCanvas = document.createElement('canvas');
+                finalCanvas.width = 1080;
+                finalCanvas.height = 1350;
+                const ctx = finalCanvas.getContext('2d');
+                
+                // Preencher com verde
+                ctx.fillStyle = '#7dbf41';
+                ctx.fillRect(0, 0, 1080, 1350);
+                
+                // Desenhar o canvas capturado centralizado
+                ctx.drawImage(canvas, 0, 0, 1080, 1350);
+                
+                const link = document.createElement('a');
+                const name = personName.value || 'quote';
+                const filename = `${name.toLowerCase().replace(/\s+/g, '_')}_quote_card.png`;
+                
+                link.download = filename;
+                link.href = finalCanvas.toDataURL('image/png', 1.0);
+                link.click();
+            } catch (error) {
+                console.error('Erro ao gerar imagem:', error);
+                alert('Erro ao gerar a imagem. Tente novamente.');
+            } finally {
+                // Restaurar estilos originais
+                cardElement.style.transform = originalCardTransform;
+                previewContainer.style.display = originalContainerStyle.display;
+                previewContainer.style.alignItems = originalContainerStyle.alignItems;
+                previewContainer.style.justifyContent = originalContainerStyle.justifyContent;
+                previewContainer.style.padding = originalContainerStyle.padding;
+            }
+        }
+        
+        // Reset function
+        function resetAll() {
+            if (confirm('Reset all fields?')) {
+                personName.value = 'John Smith';
+                personRole.value = 'Solutions Architect';
+                quoteText.value = '"NetSuite\'s future is about turning intelligence into action. This webinar is the starting point to transform that potential into real projects within your business, now"';
+                
+                displayName.textContent = 'John Smith';
+                displayRole.textContent = 'Solutions Architect';
+                displayQuote.textContent = '"NetSuite\'s future is about turning intelligence into action. This webinar is the starting point to transform that potential into real projects within your business, now"';
+                
+                nameCount.textContent = '10';
+                roleCount.textContent = '19';
+                quoteCount.textContent = '166';
+                
+                uploadedPhotoURL = null;
+                photoPreviewMini.classList.remove('active');
+                photoInput.value = '';
+                photoFrame.style.backgroundImage = 'none';
+                photoFrame.style.background = 'var(--bring-itconcrete)';
+                photoFrame.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>

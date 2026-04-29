@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<!-- saved from url=(0122)file:///C:/Users/gabri/AppData/Local/Temp/MicrosoftEdgeDownloads/f55e06d1-c703-40fb-922a-52550df1db1d/bring_it_report.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Tasks Report — Bring IT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Marketing Tasks Report — Bring IT_files/css2" rel="stylesheet">
+<script src="./Marketing Tasks Report — Bring IT_files/chart.umd.js.download"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:      #7dbf41;
+    --dark-green: #1a231f;
+    --white:      #ffffff;
+    --concrete:   #6b756e;
+    --spot-gray:  #f2f2f2;
+    --sup-gray:   #e7e7e7;
+    --c-content:  #185FA5;
+    --c-sales:    #1D9E75;
+    --c-interna:  #C8900A;
+    --c-produto:  #6B55CC;
+    --c-branding: #C44A1A;
+  }
+  body { font-family: 'Roboto', sans-serif; background: var(--spot-gray); color: var(--dark-green); font-size: 14px; line-height: 1.6; min-height: 100vh; }
+
+  header { background: var(--dark-green); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 36px; height: 36px; }
+  .logo-wordmark { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .04em; text-transform: uppercase; }
+  .report-badge { background: var(--green); color: var(--dark-green); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 5px 14px; border-radius: 2px; }
+
+  .hero { background: var(--dark-green); padding: 48px 48px 56px; border-bottom: 3px solid var(--green); }
+  .hero-label { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+  .hero-title { font-size: 36px; font-weight: 300; color: var(--white); line-height: 1.2; max-width: 600px; }
+  .hero-title strong { font-weight: 700; color: var(--green); }
+  .hero-meta { margin-top: 20px; font-size: 13px; color: var(--concrete); display: flex; gap: 32px; flex-wrap: wrap; }
+  .hero-meta span strong { color: var(--white); font-weight: 500; }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 48px 80px; }
+
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--concrete); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--sup-gray); }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 48px; }
+  .metric-card { background: var(--white); border-radius: 4px; padding: 20px 18px 18px; border-top: 3px solid var(--green); position: relative; overflow: hidden; }
+  .metric-card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--spot-gray); transform: translate(16px,16px); }
+  .metric-card .area-dot { width: 8px; height: 8px; border-radius: 2px; margin-bottom: 10px; }
+  .metric-card .pct { font-size: 32px; font-weight: 700; color: var(--dark-green); line-height: 1; margin-bottom: 4px; }
+  .metric-card .lbl { font-size: 12px; font-weight: 500; color: var(--dark-green); margin-bottom: 2px; }
+  .metric-card .cnt { font-size: 11px; color: var(--concrete); }
+
+  .chart-container { background: var(--white); border-radius: 4px; padding: 32px; margin-bottom: 48px; }
+  .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+  .chart-title { font-size: 16px; font-weight: 500; color: var(--dark-green); }
+  .chart-subtitle { font-size: 12px; color: var(--concrete); margin-top: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--concrete); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .chart-wrap { position: relative; width: 100%; height: 320px; }
+
+  .table-container { background: var(--white); border-radius: 4px; overflow: hidden; margin-bottom: 48px; }
+  .table-header { background: var(--dark-green); padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--white); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--spot-gray); }
+  thead th { padding: 12px 20px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--concrete); text-align: right; }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--sup-gray); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--spot-gray); }
+  tbody td { padding: 14px 20px; font-size: 13px; color: var(--dark-green); text-align: right; font-variant-numeric: tabular-nums; }
+  tbody td:first-child { text-align: left; }
+  .area-cell { display: flex; align-items: center; gap: 10px; }
+  .area-dot-sm { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .area-name { font-weight: 500; }
+  td.peak { font-weight: 700; }
+  td.peak::after { content: '▲'; font-size: 8px; color: var(--green); margin-left: 4px; vertical-align: middle; }
+  .total-row td { font-size: 11px; color: var(--concrete); background: var(--spot-gray); font-weight: 400; }
+
+  .stacked-section { background: var(--white); border-radius: 4px; padding: 32px; margin-bottom: 48px; }
+  .quarter-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .quarter-label { font-size: 12px; font-weight: 700; color: var(--dark-green); width: 64px; flex-shrink: 0; }
+  .stacked-bar { flex: 1; height: 32px; display: flex; border-radius: 3px; overflow: hidden; }
+  .stacked-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.9); overflow: hidden; white-space: nowrap; min-width: 0; }
+  .quarter-total { font-size: 11px; color: var(--concrete); width: 64px; text-align: right; flex-shrink: 0; }
+
+  .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+  .insight-card { background: var(--white); border-radius: 4px; padding: 24px; border-left: 3px solid var(--green); }
+  .insight-card.alert { border-left-color: var(--c-sales); }
+  .insight-card.neutral { border-left-color: var(--concrete); }
+  .insight-card.note { border-left-color: var(--c-interna); }
+  .insight-tag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+  .insight-card.alert .insight-tag { color: var(--c-sales); }
+  .insight-card.neutral .insight-tag { color: var(--concrete); }
+  .insight-card.note .insight-tag { color: var(--c-interna); }
+  .insight-title { font-size: 14px; font-weight: 700; color: var(--dark-green); margin-bottom: 8px; line-height: 1.4; }
+  .insight-body { font-size: 13px; color: var(--concrete); line-height: 1.65; }
+
+  /* PEOPLE */
+  .people-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+  .person-card { background: var(--white); border-radius: 4px; padding: 24px; }
+  .person-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .person-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--dark-green); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--green); flex-shrink: 0; }
+  .person-name { font-size: 15px; font-weight: 700; color: var(--dark-green); }
+  .person-total { font-size: 11px; color: var(--concrete); margin-top: 2px; }
+  .person-bars { display: flex; flex-direction: column; gap: 10px; }
+  .pbar-row { display: flex; align-items: center; gap: 10px; }
+  .pbar-label { font-size: 11px; color: var(--concrete); width: 116px; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
+  .pbar-dot { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+  .pbar-track { flex: 1; background: var(--spot-gray); border-radius: 2px; height: 8px; overflow: hidden; }
+  .pbar-fill { height: 100%; border-radius: 2px; }
+  .pbar-pct { font-size: 11px; font-weight: 700; color: var(--dark-green); width: 36px; text-align: right; flex-shrink: 0; }
+
+  /* PEOPLE TABLE */
+  .people-table-wrap { background: var(--white); border-radius: 4px; overflow: hidden; margin-bottom: 48px; }
+  .people-table-wrap table thead th { text-align: center; }
+  .people-table-wrap table thead th:first-child { text-align: left; }
+  .people-table-wrap table tbody td { text-align: center; }
+  .people-table-wrap table tbody td:first-child { text-align: left; }
+  .cell-bar { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .cell-pct { font-size: 13px; font-weight: 500; color: var(--dark-green); }
+  .cell-mini { height: 5px; border-radius: 2px; min-width: 2px; }
+
+  footer { background: var(--dark-green); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-size: 11px; color: var(--concrete); }
+  .footer-brand { font-size: 11px; color: var(--concrete); }
+  .footer-brand strong { color: var(--green); }
+
+  @media (max-width: 900px) {
+    header, .hero, main, footer { padding-left: 20px; padding-right: 20px; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .insights-grid, .people-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="17" stroke="#7dbf41" stroke-width="2"></circle>
+      <circle cx="18" cy="18" r="10" stroke="#7dbf41" stroke-width="1.5" stroke-dasharray="4 3"></circle>
+      <circle cx="18" cy="18" r="4" fill="#7dbf41"></circle>
+    </svg>
+    <span class="logo-wordmark">Bring IT</span>
+  </div>
+  <span class="report-badge">Marketing Report</span>
+</header>
+
+<div class="hero">
+  <p class="hero-label">Distribuição de Tasks por Área</p>
+  <h1 class="hero-title">Marketing Effort<br><strong>Quarter a Quarter</strong></h1>
+  <div class="hero-meta">
+    <span><strong>Período</strong> Q1 2025 — Q1 2026</span>
+    <span><strong>Tasks classificadas</strong> 1.963</span>
+    <span><strong>Áreas</strong> 5</span>
+    <span><strong>Fonte</strong> Notion · Marketing Board</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- VISÃO GERAL -->
+  <p class="section-label">Visão geral consolidada</p>
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="area-dot" style="background:var(--c-content);"></div>
+      <div class="pct">43.9%</div>
+      <div class="lbl">Conteúdo</div>
+      <div class="cnt">862 tasks</div>
+    </div>
+    <div class="metric-card">
+      <div class="area-dot" style="background:var(--c-sales);"></div>
+      <div class="pct">23.1%</div>
+      <div class="lbl">Sales</div>
+      <div class="cnt">453 tasks</div>
+    </div>
+    <div class="metric-card">
+      <div class="area-dot" style="background:var(--c-interna);"></div>
+      <div class="pct">15.8%</div>
+      <div class="lbl">Com. Interna</div>
+      <div class="cnt">310 tasks</div>
+    </div>
+    <div class="metric-card">
+      <div class="area-dot" style="background:var(--c-branding);"></div>
+      <div class="pct">11.5%</div>
+      <div class="lbl">Branding</div>
+      <div class="cnt">225 tasks</div>
+    </div>
+    <div class="metric-card">
+      <div class="area-dot" style="background:var(--c-produto);"></div>
+      <div class="pct">5.8%</div>
+      <div class="lbl">Produto</div>
+      <div class="cnt">113 tasks</div>
+    </div>
+  </div>
+
+  <!-- LINE CHART -->
+  <div class="chart-container">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Evolução por quarter (%)</div>
+        <div class="chart-subtitle">Percentual de tasks classificadas em cada área, por período</div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-content);"></span>Conteúdo</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-sales);"></span>Sales</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-interna);"></span>Com. Interna</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-branding);"></span>Branding</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-produto);"></span>Produto</span>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="lineChart" role="img" aria-label="Evolução das 5 áreas de marketing de Q1 2025 a Q1 2026." width="940" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 940px;"></canvas>
+    </div>
+  </div>
+
+  <!-- STACKED BARS -->
+  <div class="stacked-section">
+    <div class="chart-header" style="margin-bottom:20px;">
+      <div>
+        <div class="chart-title">Composição por quarter</div>
+        <div class="chart-subtitle">Proporção relativa de cada área dentro do período</div>
+      </div>
+    </div>
+    <!-- Q1 2025: Conteúdo 23.4, Sales 33.9, Com.Interna 24.5, Branding 13.6, Produto 4.5 -->
+    <div class="quarter-row">
+      <div class="quarter-label">Q1 2025</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:33.9%;background:var(--c-sales);" title="Sales 33.9%">Sales 34%</div>
+        <div class="stacked-seg" style="width:24.5%;background:var(--c-interna);" title="Com.Interna 24.5%">Int. 25%</div>
+        <div class="stacked-seg" style="width:23.4%;background:var(--c-content);" title="Conteúdo 23.4%">Cont. 23%</div>
+        <div class="stacked-seg" style="width:13.6%;background:var(--c-branding);" title="Branding 13.6%"></div>
+        <div class="stacked-seg" style="width:4.5%;background:var(--c-produto);" title="Produto 4.5%"></div>
+      </div>
+      <div class="quarter-total">286 tasks</div>
+    </div>
+    <!-- Q2 2025: Conteúdo 18.8, Sales 23.8, Com.Interna 27.8, Branding 14.8, Produto 14.8 -->
+    <div class="quarter-row">
+      <div class="quarter-label">Q2 2025</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:27.8%;background:var(--c-interna);" title="Com.Interna 27.8%">Int. 28%</div>
+        <div class="stacked-seg" style="width:23.8%;background:var(--c-sales);" title="Sales 23.8%">Sales 24%</div>
+        <div class="stacked-seg" style="width:18.8%;background:var(--c-content);" title="Conteúdo 18.8%">Cont.</div>
+        <div class="stacked-seg" style="width:14.8%;background:var(--c-branding);" title="Branding 14.8%"></div>
+        <div class="stacked-seg" style="width:14.8%;background:var(--c-produto);" title="Produto 14.8%"></div>
+      </div>
+      <div class="quarter-total">277 tasks</div>
+    </div>
+    <!-- Q3 2025: Conteúdo 40.4, Sales 45.6, Com.Interna 6.5, Branding 2.3, Produto 5.3 -->
+    <div class="quarter-row">
+      <div class="quarter-label">Q3 2025</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:45.6%;background:var(--c-sales);" title="Sales 45.6%">Sales 46%</div>
+        <div class="stacked-seg" style="width:40.4%;background:var(--c-content);" title="Conteúdo 40.4%">Conteúdo 40%</div>
+        <div class="stacked-seg" style="width:6.5%;background:var(--c-interna);" title="Com.Interna 6.5%"></div>
+        <div class="stacked-seg" style="width:5.3%;background:var(--c-produto);" title="Produto 5.3%"></div>
+        <div class="stacked-seg" style="width:2.3%;background:var(--c-branding);" title="Branding 2.3%"></div>
+      </div>
+      <div class="quarter-total">399 tasks</div>
+    </div>
+    <!-- Q4 2025: Conteúdo 59.1, Sales 29.3, Com.Interna 3.4, Branding 3.0, Produto 5.2 -->
+    <div class="quarter-row">
+      <div class="quarter-label">Q4 2025</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:59.1%;background:var(--c-content);" title="Conteúdo 59.1%">Conteúdo 59%</div>
+        <div class="stacked-seg" style="width:29.3%;background:var(--c-sales);" title="Sales 29.3%">Sales 29%</div>
+        <div class="stacked-seg" style="width:5.2%;background:var(--c-produto);" title="Produto 5.2%"></div>
+        <div class="stacked-seg" style="width:3.4%;background:var(--c-interna);" title="Com.Interna 3.4%"></div>
+        <div class="stacked-seg" style="width:3.0%;background:var(--c-branding);" title="Branding 3.0%"></div>
+      </div>
+      <div class="quarter-total">232 tasks</div>
+    </div>
+    <!-- Q1 2026: Conteúdo 72.8, Sales 8.3, Com.Interna 12.4, Branding 1.2, Produto 5.3 -->
+    <div class="quarter-row">
+      <div class="quarter-label">Q1 2026</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg" style="width:72.8%;background:var(--c-content);" title="Conteúdo 72.8%">Conteúdo 73%</div>
+        <div class="stacked-seg" style="width:12.4%;background:var(--c-interna);" title="Com.Interna 12.4%"></div>
+        <div class="stacked-seg" style="width:8.3%;background:var(--c-sales);" title="Sales 8.3%"></div>
+        <div class="stacked-seg" style="width:5.3%;background:var(--c-produto);" title="Produto 5.3%"></div>
+        <div class="stacked-seg" style="width:1.2%;background:var(--c-branding);" title="Branding 1.2%"></div>
+      </div>
+      <div class="quarter-total">169 tasks</div>
+    </div>
+    <div class="legend" style="margin-top:20px;padding-top:16px;border-top:1px solid var(--sup-gray);">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c-content);"></span>Conteúdo</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c-sales);"></span>Sales</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c-interna);"></span>Com. Interna</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c-branding);"></span>Branding</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--c-produto);"></span>Produto</span>
+    </div>
+  </div>
+
+  <!-- TABLE QUARTER -->
+  <div class="table-container">
+    <div class="table-header">Tabela detalhada — % por área e quarter</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Área</th><th>Q1 2025</th><th>Q2 2025</th><th>Q3 2025</th><th>Q4 2025</th><th>Q1 2026</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="area-cell"><span class="area-dot-sm" style="background:var(--c-content);"></span><span class="area-name">Conteúdo</span></span></td>
+          <td>23.4%</td><td>18.8%</td><td>40.4%</td><td>59.1%</td><td class="peak">72.8%</td>
+        </tr>
+        <tr>
+          <td><span class="area-cell"><span class="area-dot-sm" style="background:var(--c-sales);"></span><span class="area-name">Sales</span></span></td>
+          <td>33.9%</td><td>23.8%</td><td class="peak">45.6%</td><td>29.3%</td><td>8.3%</td>
+        </tr>
+        <tr>
+          <td><span class="area-cell"><span class="area-dot-sm" style="background:var(--c-interna);"></span><span class="area-name">Com. Interna</span></span></td>
+          <td>24.5%</td><td class="peak">27.8%</td><td>6.5%</td><td>3.4%</td><td>12.4%</td>
+        </tr>
+        <tr>
+          <td><span class="area-cell"><span class="area-dot-sm" style="background:var(--c-branding);"></span><span class="area-name">Branding</span></span></td>
+          <td>13.6%</td><td class="peak">14.8%</td><td>2.3%</td><td>3.0%</td><td>1.2%</td>
+        </tr>
+        <tr>
+          <td><span class="area-cell"><span class="area-dot-sm" style="background:var(--c-produto);"></span><span class="area-name">Produto</span></span></td>
+          <td>4.5%</td><td class="peak">14.8%</td><td>5.3%</td><td>5.2%</td><td>5.3%</td>
+        </tr>
+        <tr class="total-row">
+          <td>Tasks classificadas</td>
+          <td>286</td><td>277</td><td>399</td><td>232</td><td>169</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- INSIGHTS -->
+  <p class="section-label">Interpretação dos dados</p>
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="insight-tag">Tendência principal</div>
+      <div class="insight-title">Conteúdo em crescimento consistente — de 23% para 73%</div>
+      <div class="insight-body">A única área com trajetória de alta ininterrupta. Social media, blog e website viraram o centro de gravidade da operação a partir do Q3 2025, chegando a quase 3 em cada 4 tasks no Q1 2026.</div>
+    </div>
+    <div class="insight-card alert">
+      <div class="insight-tag">Ponto de atenção</div>
+      <div class="insight-title">Sales: pico no Q3 2025 (46%) e queda para 8% no Q1 2026</div>
+      <div class="insight-body">A maior oscilação do dataset. O Q3 2025 concentrou o maior volume total (399 tasks) com Sales dominando. A queda abrupta para 8% no Q1 2026 pode sinalizar um gap real de suporte comercial.</div>
+    </div>
+    <div class="insight-card neutral">
+      <div class="insight-tag">Fase de estruturação</div>
+      <div class="insight-title">H1 2025: Com. Interna e Branding somavam 38% do esforço</div>
+      <div class="insight-body">Rebrand, brand guide e processos internos dominaram Q1 e Q2. A partir do Q3, essas áreas caíram para menos de 6% — sinal de que a base estava pronta e o time virou para execução.</div>
+    </div>
+    <div class="insight-card note">
+      <div class="insight-tag">Produto</div>
+      <div class="insight-title">Produto estável em torno de 5% — com spike em Q2 (15%)</div>
+      <div class="insight-body">Assets de HC360, IMA, Storer, LATAM Tax e Colin mantêm presença constante. O spike do Q2 provavelmente reflete um ciclo de lançamento ou atualização concentrado naquele período.</div>
+    </div>
+  </div>
+
+  <!-- PEOPLE SECTION -->
+  <p class="section-label">Envolvimento por pessoa</p>
+
+  <div class="people-table-wrap">
+    <div class="table-header">Distribuição % de tasks por pessoa e área — todos os períodos</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Pessoa</th>
+          <th>Conteúdo</th><th>Sales</th><th>Com. Interna</th><th>Produto</th><th>Branding</th>
+          <th>Total tasks</th>
+        </tr>
+      </thead>
+      <tbody id="people-tbody"><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">AR</span>
+    <span class="area-name">Alejandra Rios</span></span></td><td class="peak">
+      <div class="cell-bar">
+        <span class="cell-pct">75.6%</span>
+        <div class="cell-mini" style="background:#185FA5;width:36.3px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">5.9%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:2.8px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">14.1%</span>
+        <div class="cell-mini" style="background:#C8900A;width:6.8px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">4.4%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:2.1px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">0.0%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:2.0px;"></div>
+      </div></td><td style="font-weight:500;">205</td></tr><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">DT</span>
+    <span class="area-name">Dani Torres</span></span></td><td class="peak">
+      <div class="cell-bar">
+        <span class="cell-pct">73.1%</span>
+        <div class="cell-mini" style="background:#185FA5;width:35.1px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">11.7%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:5.6px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">12.2%</span>
+        <div class="cell-mini" style="background:#C8900A;width:5.9px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">2.5%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:2.0px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">0.5%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:2.0px;"></div>
+      </div></td><td style="font-weight:500;">435</td></tr><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">DS</span>
+    <span class="area-name">Diogo Sarilio</span></span></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">25.0%</span>
+        <div class="cell-mini" style="background:#185FA5;width:12.0px;"></div>
+      </div></td><td class="peak">
+      <div class="cell-bar">
+        <span class="cell-pct">63.4%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:30.4px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">5.9%</span>
+        <div class="cell-mini" style="background:#C8900A;width:2.8px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">5.1%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:2.4px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">0.5%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:2.0px;"></div>
+      </div></td><td style="font-weight:500;">372</td></tr><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">GG</span>
+    <span class="area-name">Gabriel Gomes</span></span></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">35.1%</span>
+        <div class="cell-mini" style="background:#185FA5;width:16.8px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">34.2%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:16.4px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">14.7%</span>
+        <div class="cell-mini" style="background:#C8900A;width:7.1px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">4.3%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:2.1px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">11.7%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:5.6px;"></div>
+      </div></td><td style="font-weight:500;">1.096</td></tr><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">MS</span>
+    <span class="area-name">Mateo Soto Agudelo</span></span></td><td class="peak">
+      <div class="cell-bar">
+        <span class="cell-pct">90.6%</span>
+        <div class="cell-mini" style="background:#185FA5;width:43.5px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">0.7%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:2.0px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">6.5%</span>
+        <div class="cell-mini" style="background:#C8900A;width:3.1px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">2.2%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:2.0px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">0.0%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:2.0px;"></div>
+      </div></td><td style="font-weight:500;">138</td></tr><tr><td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">SM</span>
+    <span class="area-name">Sofia Morris</span></span></td><td class="peak">
+      <div class="cell-bar">
+        <span class="cell-pct">64.1%</span>
+        <div class="cell-mini" style="background:#185FA5;width:30.8px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">6.7%</span>
+        <div class="cell-mini" style="background:#1D9E75;width:3.2px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">17.3%</span>
+        <div class="cell-mini" style="background:#C8900A;width:8.3px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">8.8%</span>
+        <div class="cell-mini" style="background:#6B55CC;width:4.2px;"></div>
+      </div></td><td>
+      <div class="cell-bar">
+        <span class="cell-pct">3.1%</span>
+        <div class="cell-mini" style="background:#C44A1A;width:2.0px;"></div>
+      </div></td><td style="font-weight:500;">510</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="people-grid" id="people-cards">
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">AR</div>
+        <div>
+          <div class="person-name">Alejandra Rios</div>
+          <div class="person-total">205 tasks envolvidas</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:75.6%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">75.6%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:14.1%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">14.1%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:5.9%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">5.9%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:4.4%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">4.4%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:0%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">0.0%</span>
+    </div></div>
+    </div>
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">DT</div>
+        <div>
+          <div class="person-name">Dani Torres</div>
+          <div class="person-total">435 tasks envolvidas</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:73.1%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">73.1%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:12.2%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">12.2%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:11.7%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">11.7%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:2.5%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">2.5%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:0.5%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">0.5%</span>
+    </div></div>
+    </div>
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">DS</div>
+        <div>
+          <div class="person-name">Diogo Sarilio</div>
+          <div class="person-total">372 tasks envolvidas</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:63.4%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">63.4%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:25%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">25.0%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:5.9%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">5.9%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:5.1%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">5.1%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:0.5%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">0.5%</span>
+    </div></div>
+    </div>
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">GG</div>
+        <div>
+          <div class="person-name">Gabriel Gomes</div>
+          <div class="person-total">1.096 tasks · maior volume do time</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:35.1%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">35.1%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:34.2%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">34.2%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:14.7%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">14.7%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:11.7%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">11.7%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:4.3%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">4.3%</span>
+    </div></div>
+    </div>
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">MS</div>
+        <div>
+          <div class="person-name">Mateo Soto Agudelo</div>
+          <div class="person-total">138 tasks envolvidas</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:90.6%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">90.6%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:6.5%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">6.5%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:2.2%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">2.2%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:0.7%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">0.7%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:0%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">0.0%</span>
+    </div></div>
+    </div>
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">SM</div>
+        <div>
+          <div class="person-name">Sofia Morris</div>
+          <div class="person-total">510 tasks envolvidas</div>
+        </div>
+      </div>
+      <div class="person-bars">
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#185FA5;"></span>Conteúdo</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:64.1%;background:#185FA5;"></div></div>
+      <span class="pbar-pct">64.1%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C8900A;"></span>Comunicação Interna</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:17.3%;background:#C8900A;"></div></div>
+      <span class="pbar-pct">17.3%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#6B55CC;"></span>Produto</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:8.8%;background:#6B55CC;"></div></div>
+      <span class="pbar-pct">8.8%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#1D9E75;"></span>Sales</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:6.7%;background:#1D9E75;"></div></div>
+      <span class="pbar-pct">6.7%</span>
+    </div>
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:#C44A1A;"></span>Branding</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:3.1%;background:#C44A1A;"></div></div>
+      <span class="pbar-pct">3.1%</span>
+    </div></div>
+    </div></div>
+
+</main>
+
+<footer>
+  <div class="footer-note">Dados: Notion · Marketing Board &nbsp;·&nbsp; 1.963 tasks classificadas de Q1 2025 a Q1 2026</div>
+  <div class="footer-brand"><strong>Bring IT</strong> · Marketing Intelligence</div>
+</footer>
+
+<script src="./Marketing Tasks Report — Bring IT_files/chart.umd.js.download"></script>
+<script>
+// ── DATA ───────────────────────────────────────────────────────────────
+const COLORS = {
+  'Conteúdo':            '#185FA5',
+  'Sales':               '#1D9E75',
+  'Comunicação Interna': '#C8900A',
+  'Produto':             '#6B55CC',
+  'Branding':            '#C44A1A',
+};
+
+const AREAS = ['Conteúdo','Sales','Comunicação Interna','Produto','Branding'];
+
+const people = [
+  { name:'Alejandra Rios',     initials:'AR', total:205,  pct:{ 'Conteúdo':75.6,'Sales':5.9,'Comunicação Interna':14.1,'Produto':4.4,'Branding':0.0 } },
+  { name:'Dani Torres',        initials:'DT', total:435,  pct:{ 'Conteúdo':73.1,'Sales':11.7,'Comunicação Interna':12.2,'Produto':2.5,'Branding':0.5 } },
+  { name:'Diogo Sarilio',      initials:'DS', total:372,  pct:{ 'Conteúdo':25.0,'Sales':63.4,'Comunicação Interna':5.9,'Produto':5.1,'Branding':0.5 } },
+  { name:'Gabriel Gomes',      initials:'GG', total:1096, pct:{ 'Conteúdo':35.1,'Sales':34.2,'Comunicação Interna':14.7,'Produto':4.3,'Branding':11.7 } },
+  { name:'Mateo Soto Agudelo', initials:'MS', total:138,  pct:{ 'Conteúdo':90.6,'Sales':0.7,'Comunicação Interna':6.5,'Produto':2.2,'Branding':0.0 } },
+  { name:'Sofia Morris',       initials:'SM', total:510,  pct:{ 'Conteúdo':64.1,'Sales':6.7,'Comunicação Interna':17.3,'Produto':8.8,'Branding':3.1 } },
+];
+
+// ── BUILD PEOPLE TABLE ─────────────────────────────────────────────────
+const tbody = document.getElementById('people-tbody');
+people.forEach(p => {
+  const tr = document.createElement('tr');
+  let html = `<td><span class="area-cell">
+    <span style="width:28px;height:28px;border-radius:50%;background:var(--dark-green);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);margin-right:8px;flex-shrink:0;">${p.initials}</span>
+    <span class="area-name">${p.name}</span></span></td>`;
+  AREAS.forEach(a => {
+    const v = p.pct[a];
+    const isPeak = (a === 'Conteúdo' && v > 60) || (a === 'Sales' && v > 50) || (a === 'Comunicação Interna' && v > 20);
+    html += `<td${isPeak ? ' class="peak"' : ''}>
+      <div class="cell-bar">
+        <span class="cell-pct">${v.toFixed(1)}%</span>
+        <div class="cell-mini" style="background:${COLORS[a]};width:${Math.max(v/100*48,2).toFixed(1)}px;"></div>
+      </div></td>`;
+  });
+  html += `<td style="font-weight:500;">${p.total.toLocaleString('pt-BR')}</td>`;
+  tr.innerHTML = html;
+  tbody.appendChild(tr);
+});
+
+// ── BUILD PEOPLE CARDS ─────────────────────────────────────────────────
+const cards = document.getElementById('people-cards');
+people.forEach(p => {
+  const sorted = [...AREAS].sort((a,b) => p.pct[b] - p.pct[a]);
+  const noteMap = {
+    'Alejandra Rios':     '205 tasks envolvidas',
+    'Dani Torres':        '435 tasks envolvidas',
+    'Diogo Sarilio':      '372 tasks envolvidas',
+    'Gabriel Gomes':      '1.096 tasks · maior volume do time',
+    'Mateo Soto Agudelo': '138 tasks envolvidas',
+    'Sofia Morris':       '510 tasks envolvidas',
+  };
+  let bars = sorted.map(a => `
+    <div class="pbar-row">
+      <span class="pbar-label"><span class="pbar-dot" style="background:${COLORS[a]};"></span>${a}</span>
+      <div class="pbar-track"><div class="pbar-fill" style="width:${p.pct[a]}%;background:${COLORS[a]};"></div></div>
+      <span class="pbar-pct">${p.pct[a].toFixed(1)}%</span>
+    </div>`).join('');
+  cards.innerHTML += `
+    <div class="person-card">
+      <div class="person-header">
+        <div class="person-avatar">${p.initials}</div>
+        <div>
+          <div class="person-name">${p.name}</div>
+          <div class="person-total">${noteMap[p.name]}</div>
+        </div>
+      </div>
+      <div class="person-bars">${bars}</div>
+    </div>`;
+});
+
+// ── LINE CHART ─────────────────────────────────────────────────────────
+new Chart(document.getElementById('lineChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026'],
+    datasets: [
+      { label:'Conteúdo',            data:[23.4,18.8,40.4,59.1,72.8], borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)', fill:true,  tension:.35, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#185FA5', borderWidth:2.5 },
+      { label:'Sales',               data:[33.9,23.8,45.6,29.3,8.3],  borderColor:'#1D9E75', backgroundColor:'transparent',           fill:false, tension:.35, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#1D9E75', borderWidth:2.5 },
+      { label:'Comunicação Interna', data:[24.5,27.8,6.5,3.4,12.4],   borderColor:'#C8900A', backgroundColor:'transparent',           fill:false, tension:.35, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#C8900A', borderWidth:2.5 },
+      { label:'Branding',            data:[13.6,14.8,2.3,3.0,1.2],    borderColor:'#C44A1A', backgroundColor:'transparent',           fill:false, tension:.35, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#C44A1A', borderWidth:2 },
+      { label:'Produto',             data:[4.5,14.8,5.3,5.2,5.3],     borderColor:'#6B55CC', backgroundColor:'transparent',           fill:false, tension:.35, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#6B55CC', borderWidth:2, borderDash:[5,3] },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: {
+      legend: { display:false },
+      tooltip: {
+        backgroundColor:'#1a231f', titleColor:'#7dbf41', bodyColor:'#fff', padding:12, cornerRadius:4,
+        callbacks: { label: ctx => '  ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' }
+      }
+    },
+    scales: {
+      y: { beginAtZero:true, max:80, ticks:{ callback:v=>v+'%', font:{family:'Roboto',size:11}, color:'#6b756e' }, grid:{ color:'rgba(107,117,110,0.12)' }, border:{ display:false } },
+      x: { ticks:{ font:{family:'Roboto',size:12,weight:'500'}, color:'#1a231f' }, grid:{ display:false }, border:{ display:false } }
+    }
+  }
+});
+</script>
+
+
+</body></html>
